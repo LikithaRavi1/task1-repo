@@ -1,0 +1,21 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: flask-app-tls
+  namespace: default
+spec:
+  secretName: flask-app-tls  # This is the name of the secret that will store the TLS cert/key
+  duration: 2160h             # 90 days
+  renewBefore: 720h           # Optional: when to renew before expiry
+  subject:
+    organizations:
+      - KubeAce
+  commonName: flask.kubeace.com
+  dnsNames:
+    - flask.kubeace.com
+  issuerRef:
+    name: letsencrypt-prod   # This must match your ClusterIssuer name
+    kind: ClusterIssuer
+  privateKey:
+    algorithm: RSA
+    size: 2048
